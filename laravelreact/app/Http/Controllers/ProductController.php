@@ -97,10 +97,10 @@ class ProductController extends Controller
             if ($request->hasFile('image')) {
                 // Remove old image
                 if ($product->image) {
-                    $oldImage = Storage::disk('public')->exists("/public/products/image/{$product->image}");
+                    $oldImage = Storage::exists("/public/products/image/{$product->image}");
                     
                     if ($oldImage) {
-                        Storage::disk('public')->delete("/products/image/{$product->image}");
+                        Storage::delete("/public/products/image/{$product->image}");
                     }
                 }
                 $imagePath = Str::random() . '.' . $request->image->getClientOriginalExtension();
@@ -130,13 +130,13 @@ class ProductController extends Controller
     {
         try {
             if ($product->image) {
-                $oldImage = Storage::disk('public')->exists("/public/products/image/{$product->image}");
+                $oldImage = Storage::exists("/public/products/image/{$product->image}");
                 if ($oldImage) {
-                    Storage::disk('public')->delete("/public/products/image/{$product->image}");
+                    Storage::delete("/public/products/image/{$product->image}");
                 }
             }
             $product->delete();
-            return response()->json(['message', 'Product deleleted successfully']);
+            return response()->json(['message' => 'Product deleleted successfully']);
 
         } catch (Exception $e) {
             Log::error($e->getMessage());
